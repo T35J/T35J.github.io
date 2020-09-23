@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <title>XPath Designer - Instructions</title>
+    <style>
+a{color:#000}#heading-container{margin-left:100px;width:1030px;height:60px;border-bottom:1px solid #000}#heading{float:left;margin-top:20px;font-size:x-large}#how-to-use-link{float:left;margin-top:25px;margin-left:20px}#main-container{margin-top:20px;margin-left:100px;display:inline-block;border-radius:5px;padding:20px;width:450px;background-color:#f2f2f2}
+
+    </style>
+</head>
+
+<body>
+    <div id="heading-container">
+        <h3 id="heading"><a href="http://xpathdesigner.com">XPath Designer</a></h3>
+        <a id="how-to-use-link" href="http://xpathdesigner.com/instructions.html">How to use</a>
+    </div>
+    <div id="main-container">
+        <p><b>What is XPath Designer?</b></p>
+        <p>XPath Designer is tool which helps you rapidly create precise XPath expressions with little effort.</p>
+        <p><b>How do I use it?</b></p>
+        <p>XPath Designer is intended to be used in conjunction with the inspect element tool in your web browser.
+            The software is very intuitive, some things are much easier understood after a bit of hands-on tinkering
+            rather than reading an explanation.</p>
+        <p><b>Analyze</b></p>
+        <p>Use the inspect element tool to identify an element that you wish to locate. Copy the html of that element,
+            then paste the html in the ‘Input’ field in XPath Designer, then click on the ‘Analyze’ button.
+            The ‘Tag’ field will automatically be filled with the tag name of that element and the Attribute table will
+            automatically be populated with the attributes of the element.</p>
+        <p>If you remove the text in the ‘Tag’ textbox, then the resulting XPath will use a wildcard so that all element
+            types will be matched.</p>
+        <p><b>Delete Mode</b></p>
+        <p>You can now look through the attributes in the Attribute table and remove whatever Attributes that you don’t
+            want to use to locate the element. To remove a row in the Attribute table, click on the ‘Delete mode’
+            checkbox, then click on the rows that you wish to remove, then click the ‘Delete mode’ checkbox again to
+            disable delete mode.</p>
+        <p><b>Match Type</b></p>
+        <p>You can change the ‘Match type’ of each attribute in the Attribute table, and modify the
+            ‘Value’ of the attribute in regard to the match type that you have chosen.</p>
+        <p>Equals means that the value must be an exact match.</p>
+        <p>Contains means that the attributes value must at least contain the given text.</p>
+        <p>Starts-with means that the attributes value must begin with the given text.</p>
+        <p>Ends-with means that the attributes value must end with the given text.</p>
+        <p>If you remove the text inside of the 'Value' textbox, then the resulting XPath will use a wildcard so that
+            the XPath will find elements with an attribute name that exactly match the text in the ‘Name’ textbox. In
+            this case ‘Match type’ will be ignored since only exact match is possible.</p>
+        <p>Likewise, if you remove the text inside of the ‘Name’ textbox, the XPath designer will use a wildcard to find
+            elements with an attribute value that matches the text in the ‘Value’ textbox depending on which ‘Match
+            type’
+            that has been selected.</p>
+        <p><b>Separator</b></p>
+
+        <p>A Separator represents an ‘or’ operator in XPath. You can click on the ‘Separator’ button to add a separator
+            to the Attribute table. You can then drag and drop the separator into the position that you want in the
+            Attribute table. When two or more rows in the attribute table are directly above or below each other without
+            a separator inserted in between, they will be joined with an ‘and’ operator in the resulting XPath.</p>
+        <p><b>Drag and Drop</b></p>
+        <p>On the left side of each attribute row in the Attribute table there is a black bar. If you want to
+            re-arrange the order of the attributes, you can drag and drop them using this black bar.</p>
+
+        <p><b>Add to list</b></p>
+        <p>When you have finished editing the Attribute table, you can click on the ‘Add to list’ button. The resulting
+            XPath expression will then appear in the ‘XPath List’ on the right-hand side of XPath Designer. You can add
+            as many items to the XPath List as you
+            want. You can also rearrange the items in the list by dragging and dropping them, and remove items using
+            ‘Delete Mode’.
+        </p>
+        <p><b>Move to level</b></p>
+        <p>If you want to move up into higher level, or move down into a specific lower level you can use the 'Move to
+            level' feature.</p>
+        <ol>
+            <li>Use the inspect element tool on your web browser find and copy the Full XPath of the element that you
+                are starting with, and paste it into the textbox in XPath Designer labelled ‘Full XPath 1’.</li>
+            <li>Repeat the process again for the element that you wish to move to, and paste it into ‘Full XPath 2’.
+            </li>
+            <li>Click on ‘Add to list’, and the level moving XPath will appear in the ‘XPath List’.</li>
+        </ol>
+        <p><b>Index</b></p>
+        <p>If your resulting XPath finds multiple elements but you only want to find one specific element, you can use
+            the Index feature, then click on ‘Get XPath’ to update the output text box.</p>
+        <p><b>Output</b></p>
+        <p>When you click on the ‘Get XPath’ button, all the items from the ‘XPath List’ are joined together in the same
+            order that they appear in the XPath List, and the
+            result is displayed in the output text box.</p>
+        Now you can test the resulting XPath to see if it successfully locates the element/s.
+        <ol>
+            <li>Copy the XPath to your clipboard.</li>
+            <li>Navigate to the webpage that you want to test it on.</li>
+            <li>Open the inspect element tool. Then press ‘control + f’ to open the search box. Then paste your XPath
+                into the search field.</li>
+        </ol>
+
+
+    </div>
+
+</body>
+
+</html>

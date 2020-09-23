@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css" />
+    <title>XPath Designer</title>
+    <meta name="keywords" content="xpath designer, xpath generator, xpath creator, xpath maker">
+    <style>
+     a{color:#000}#heading-container{margin-left:100px;width:1030px;height:60px;border-bottom:1px solid #000}#heading{float:left;margin-top:20px;font-size:x-large}#how-to-use-link{float:left;margin-top:25px;margin-left:20px}#main-container{margin-top:20px;margin-left:100px;display:inline-block;border-radius:5px;padding:20px;background-color:#f2f2f2}#index-first-button{width:auto}#last-button{width:auto}.delete-button{width:auto}.attribute-table-head-cell{padding-left:5px;padding-top:5px}.attribute-name{border:none;padding:none;margin:none;width:100%;height:100%;padding-left:5px}.attribute-value{border:none;padding:none;margin:none;width:100%;height:100%;padding-left:5px}.match-type{border:none;margin:none;padding:none;width:100%;height:100%}.innertext-match-type{border:none;margin:none;padding:none;width:100%;height:100%}#delete-attribute{float:right}#index-elements-container{display:none}#output-text{width:100%}.drag{width:10px;height:30px;background-color:#000;cursor:grab;float:left}#attribute-table-menu{width:530px;margin-bottom:10px;padding-left:10px}.attribute-table-menu-item{float:left}#attribute-table-container{width:530px}#attribute-table-head-container{float:left;margin-left:10px}.attribute-table-row{float:left;width:100%;margin-top:-1px}.attribute-table-cell{border:1px solid #999;margin-left:-1px;background-color:#fff}.attribute-table-attribute-name-cell{height:30px;width:200px;float:left}.attribute-table-value-cell{height:30px;width:200px;float:left}.attribute-table-match-type-cell{height:30px;width:120px;float:left}#checkbox-container{width:100%;float:left}#attribute-table-row-container{float:left}.separator{float:left;width:507px;background-color:#f2f2f2;height:28px;margin-top:1px;margin-bottom:1px;cursor:grab}#output-container{float:left;margin-top:10px;width:100%}.match-type :nth-child(n-5){background-color:#90ee90}.match-type :nth-child(n+5){background-color:#cd5c5c}.innertext-match-type :nth-child(n-4){background-color:#90ee90}.innertext-match-type :nth-child(n+4){background-color:#cd5c5c}#list-container{float:left;width:430px}#combine-list-text{width:100%}.list-item{margin-top:5px;margin-bottom:5px;background-color:#d3d3d3}#left-container{float:left;margin-right:30px;width:530px}#delete-mode-checkbox{margin-left:10px}#add-xpath-to-list-button{float:left}#index-container{margin-bottom:10px}.checkbox-label{margin-left:-5px;padding-left:5px}#reset-button{float:right}
+    </style>
+</head>
+
+<body>
+    <div id="heading-container">
+        <h3 id="heading"><a href="http://xpathdesigner.com">XPath Designer</a></h3>
+        <a id="how-to-use-link" href="http://xpathdesigner.com/instructions.html">How to use</a>
+    </div>
+    <div id="main-container">
+        <div id="left-container">
+            <label>Input</label><br>
+            <input type="text" id="element-to-analyze" value="" spellcheck="false" placeholder="HTML element"
+                onclick="this.focus();this.select();">
+            <input type="button" onclick="analyzeBtnClicked()" value="Analyze">
+            <br><br>
+            <label>Tag</label><br>
+            <input type="text" id="tag-name" spellcheck="false" placeholder="" onclick="this.focus();this.select();">
+            <br><br>
+            <label>Attribute table</label><br>
+            <div id="attribute-table-menu">
+                <div class="attribute-table-menu-item">
+                    <input type="button" id="add-attribute" onclick="addEmptyAttributeToTable()" value="Blank row">
+                </div>
+                <div class="attribute-table-menu-item">
+                    <input type="button" id="separator-button" onclick="addSeparatorAttributeToTable()"
+                        value="Separator">
+                </div>
+                <div class="attribute-table-menu-item">
+                    <input type="button" id="duplicate-button" value="Duplicate" onclick="duplicateBtnClicked()">
+                </div>
+                <div class="attribute-table-menu-item">
+                    <input type="button" id="undo-button" value="Undo" onclick="undoDeleteBtnClicked()">
+                </div>
+
+                <div class="attribute-table-menu-item">
+                    <input type="checkbox" id="delete-mode-checkbox" onchange="deleteModeCheckboxChanged()">
+                    <label class="checkbox-label" onclick="deleteModeLabelClicked()">Delete mode</label>
+                </div>
+            </div>
+
+            <div id="attribute-table-container">
+                <div id="attribute-table-head-container" class="disable-sort">
+                    <div class="attribute-table-attribute-name-cell attribute-table-cell attribute-table-head-cell">
+                        <strong>Name</strong>
+                    </div>
+                    <div class="attribute-table-value-cell attribute-table-cell attribute-table-head-cell">
+                        <strong>Value</strong>
+                    </div>
+                    <div class="attribute-table-match-type-cell attribute-table-cell attribute-table-head-cell">
+                        <strong>Match type</strong>
+                    </div>
+                </div>
+                <div id="attribute-table-row-container">
+                    <div class="attribute-table-row" onclick="attributeTableRowClicked(this)" data-value="attribute">
+                        <div class="drag"></div>
+                        <div class="disable-sort attribute-table-attribute-name-cell attribute-table-cell">
+                            <input type="text" class="attribute-name" spellcheck="false"
+                                onfocusout="setValueInHtml(this);" value="">
+                        </div>
+                        <div class="disable-sort attribute-table-value-cell attribute-table-cell">
+                            <input type="text" class="attribute-value" spellcheck="false"
+                                onfocusout="setValueInHtml(this);" value="">
+                        </div>
+                        <div class="disable-sort attribute-table-match-type-cell attribute-table-cell">
+                            <select class="match-type" style="background-color: lightgreen;"
+                                onchange="matchTypeDropdownChanged(this)">
+                                <option value="equals">Equals</option>
+                                <option value="contains">Contains</option>
+                                <option value="starts-with">Starts-with</option>
+                                <option value="ends-with">Ends-with</option>
+                                <option value="not equals">Not Equals</option>
+                                <option value="not contains">Not Contains</option>
+                                <option value="not starts-with">Not Starts-with</option>
+                                <option value="not ends-with">Not Ends-with</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <input type="button" id="add-xpath-to-list-button" onclick="addXpathToList();" value="Add To List">
+            </div>
+            <div id="checkbox-container">
+                <br>
+                <label>Move to level</label>
+                <br>
+                <input type="text" id="full-xpath-1" placeholder="Full XPath 1" onclick="this.focus();this.select();">
+                <br>
+                <input type="text" id="full-xpath-2" placeholder="Full XPath 2" onclick="this.focus();this.select();">
+                <br>
+                <input type="button" id="add-xpath-to-list-button" onclick="addLevelToList();" value="Add To List">
+                <br>
+                <br>
+            </div>
+            <div id="output-container">
+                <label>Output</label>
+                <textarea id="combine-list-text" spellcheck="false" placeholder="" rows="6"></textarea>
+                <div id="index-container">
+                    <input type="checkbox" id="index-checkbox" value="" onchange="indexCheckboxChanged()">
+                    <label class="checkbox-label" onclick="indexLabelClicked()">Index</label>
+                    <div id="index-elements-container">
+                        <input type="text" id="index-text" spellcheck="false" placeholder="Type a number.."
+                            onclick="this.focus();this.select();">
+                        <input type="button" id="index-first-button" onclick="indexFirstBtnClicked()" value="First">
+                        <input type="button" id="index-last-button" onclick="indexLastBtnClicked()" value="Last">
+                        <input type="button" id="index-skip-first-button" onclick="indexSkipFirstBtnClicked()"
+                            value="Skip first">
+                    </div>
+                </div>
+                <input type="button" id="combine-list-button" onclick="combineList();" value="Get XPath">
+                <input type="button" id="clear-list-button" onclick="clearList();" value="Clear List">
+                <input type="button" id="reset-button" onclick="reset();" value="Reset">
+            </div>
+        </div>
+        <div id="list-container">
+            <label>XPath List</label><br>
+            <div id="list"></div>
+        </div>
+    </div>
+
+
+
+    <script>
+        function setValueInHtml(e) { e.setAttribute("value", e.value), bodyHtmlSnapshots.push(document.body.innerHTML) } function attributeTableRowClicked(e) { 1 == deleteMode ? (bodyHtmlSnapshots.push(document.body.innerHTML), e.remove(), "0" == document.getElementsByClassName("attribute-table-row").length && addRowToAttributeTable("", "")) : activeElement = e } function addRowToAttributeTable(e, t) { var n = document.createElement("div"); n.classList.add("attribute-table-row"), n.setAttribute("onclick", "attributeTableRowClicked(this)"), n.setAttribute("name", "attributeTableRowClicked(this)"), n.setAttribute("data-value", "attribute"), n.innerHTML = "innerText" == e ? '<div class="drag"></div> <div class="disable-sort attribute-table-attribute-name-cell attribute-table-cell"> <input type="text" class="attribute-name" spellcheck="false" onfocusout="setValueInHtml(this);" value="' + e + '"> </div> <div class="disable-sort attribute-table-value-cell attribute-table-cell"> <input type="text" class="attribute-value" spellcheck="false" onfocusout="setValueInHtml(this);" value="' + t + '"> </div> <div class="disable-sort attribute-table-match-type-cell attribute-table-cell"> <select class="match-type" style="background-color: lightgreen;" onchange="matchTypeDropdownChanged(this)"> <option value="equals">Equals</option> <option value="contains">Contains</option> <option value="starts-with">Starts-with</option> <option style="background-color: indianred;" value="not equals">Not Equals</option> <option value="not contains">Not Contains</option> <option value="not starts-with">Not Starts-with</option>  </select> </div>' : '<div class="drag"></div> <div class="disable-sort attribute-table-attribute-name-cell attribute-table-cell"> <input type="text" class="attribute-name" spellcheck="false" onfocusout="setValueInHtml(this);" value="' + e + '"> </div> <div class="disable-sort attribute-table-value-cell attribute-table-cell"> <input type="text" class="attribute-value" spellcheck="false" onfocusout="setValueInHtml(this);" value="' + t + '"> </div> <div class="disable-sort attribute-table-match-type-cell attribute-table-cell"> <select class="match-type" style="background-color: lightgreen;" onchange="matchTypeDropdownChanged(this)"> <option value="equals">Equals</option> <option value="contains">Contains</option> <option value="starts-with">Starts-with</option> <option value="ends-with">Ends-with</option> <option value="not equals">Not Equals</option> <option value="not contains">Not Contains</option> <option value="not starts-with">Not Starts-with</option> <option value="not ends-with">Not Ends-with</option> </select> </div>', document.getElementById("attribute-table-row-container").appendChild(n) } function addEmptyAttributeToTable() { deleteMode = !1, document.getElementById("delete-mode-checkbox").checked = !1, bodyHtmlSnapshots.push(document.body.innerHTML), addRowToAttributeTable("", "") } function addSeparatorAttributeToTable() { let e; deleteMode = !1, document.getElementById("delete-mode-checkbox").checked = !1, bodyHtmlSnapshots.push(document.body.innerHTML), (e = document.createElement("div")).classList.add("attribute-table-row"), e.setAttribute("onclick", "attributeTableRowClicked(this)"), e.setAttribute("data-value", "separator"), e.value = "separator", e.innerHTML = '<div class="separator"></div>', document.getElementById("attribute-table-row-container").appendChild(e) } function deleteModeCheckboxChanged() { document.getElementById("delete-mode-checkbox").checked ? deleteMode = !0 : deleteMode = !1 } function deleteModeLabelClicked() { document.getElementById("delete-mode-checkbox").checked ? (document.getElementById("delete-mode-checkbox").checked = !1, deleteModeCheckboxChanged()) : (document.getElementById("delete-mode-checkbox").checked = !0, deleteModeCheckboxChanged()) } function indexLabelClicked() { document.getElementById("index-checkbox").checked ? (document.getElementById("index-checkbox").checked = !1, indexCheckboxChanged()) : (document.getElementById("index-checkbox").checked = !0, indexCheckboxChanged()) } function indexCheckboxChanged() { document.getElementById("index-text").value = "", document.getElementById("index-checkbox").checked ? document.getElementById("index-elements-container").style.display = "inline" : document.getElementById("index-elements-container").style.display = "none" } function indexFirstBtnClicked() { document.getElementById("index-text").value = "1" } function indexLastBtnClicked() { document.getElementById("index-text").value = "last()" } function indexSkipFirstBtnClicked() { document.getElementById("index-text").value = "position()>1" } function analyzeBtnClicked() { document.getElementById("tag-name").value = "", document.getElementById("attribute-table-row-container").innerHTML = "", deleteMode = !1, document.getElementById("delete-mode-checkbox").checked = !1, document.getElementById("index-checkbox").checked = !1, document.getElementById("index-elements-container").style.display = "none"; var e = document.getElementById("element-to-analyze").value.trim(), t = e.slice(-2); if (t.includes("'") || t.includes('"')) { var n = e.match(/<([\s\S]+?)\s/i); tagName = n[1], e = e + "</" + tagName + ">", document.getElementById("element-to-analyze").value = e } parser = new DOMParser, xmlDoc = parser.parseFromString(document.getElementById("element-to-analyze").value, "text/xml"), xmlElement = xmlDoc.getElementsByTagName("*")[0], document.getElementById("tag-name").value = xmlElement.nodeName; var a = [], l = {}; for (i = 0; i < xmlElement.attributes.length; i++) { var o = [xmlElement.attributes[i].name, xmlElement.attributes[i].value]; switch (o[0].toUpperCase()) { case "TYPE": l.TYPE = o; break; case "ID": l.ID = o; break; case "NAME": l.NAME = o; break; default: a.push(o) } } "NAME" in l && a.unshift(l.NAME), "ID" in l && a.unshift(l.ID), "TYPE" in l && a.unshift(l.TYPE); for (i = 0; i < a.length; i++)addRowToAttributeTable(a[i][0], a[i][1]); (htmlDoc = parser.parseFromString(document.getElementById("element-to-analyze").value, "text/html"), htmlElement = htmlDoc.getElementsByTagName("*")[0], htmlElement.textContent.trim()) && addRowToAttributeTable("innerText", htmlElement.textContent.split('"').join("&quot;")) } function addXpathToList() { document.getElementById("delete-mode-checkbox").checked = !1, deleteMode = !1, bodyHtmlSnapshots.push(document.body.innerHTML); var e = document.getElementById("tag-name").value; function t(e, t, n) { if ("" == t) var a = !1; else a = !0; if ("" == n) var l = !1; else l = !0; var o = "", i = ""; switch (e) { case "not equals": e = "equals", o = "not(", i = ")"; break; case "not contains": e = "contains", o = "not(", i = ")"; break; case "not starts-with": e = "starts-with", o = "not(", i = ")"; break; case "not ends-with": e = "ends-with", o = "not(", i = ")" }switch (e) { case "equals": a && l ? xpathAttribute = o + "@" + t + '="' + n + '"' + i : a ? xpathAttribute = o + "@" + t + i : l && (xpathAttribute = o + '@*="' + n + '"' + i); break; case "contains": a && l ? xpathAttribute = o + "contains(@" + t + ',"' + n + '")' + i : a ? xpathAttribute = o + "@" + t + i : l && (xpathAttribute = o + 'contains(@*,"' + n + '")' + i); break; case "starts-with": a && l ? xpathAttribute = o + "starts-with(@" + t + ',"' + n + '")' + i : a ? xpathAttribute = o + "@" + t + i : l && (xpathAttribute = o + 'starts-with(@*,"' + n + '")' + i); break; case "ends-with": a && l ? xpathAttribute = o + "ends-with(@" + t + ',"' + n + '")' + i : a ? xpathAttribute = o + "@" + t + i : l && (xpathAttribute = o + 'ends-with(@*,"' + n + '")' + i) }return xpathAttribute } function n(e, t) { var n = '"'; if (t.includes('"')) { n = ""; var a = t.split('"'); t = 'concat("' + a.join('", \'"\', "') + '")' } t = n + t + n; var l = ""; switch (e) { case "equals": l = "text() = " + t; break; case "contains": l = "contains(text()," + t + ")"; break; case "starts-with": l = "starts-with(text()," + t + ")"; break; case "ends-with": l = "ends-with(text()," + t + ")"; break; case "not equals": l = "not(text() = " + t + ")"; break; case "not contains": l = "not(contains(text()," + t + "))"; break; case "not starts-with": l = "not(starts-with(text()," + t + "))"; break; case "not ends-with": l = "not(ends-with(text()," + t + "))" }return l } var a = [], l = document.getElementsByClassName("attribute-table-row").length, o = 0; for (i = 0; i < l; i++) { if ("separator" != document.getElementsByClassName("attribute-table-row")[i].getAttribute("data-value")) { var d = i - o, s = document.getElementsByClassName("attribute-name")[d].value, c = document.getElementsByClassName("attribute-value")[d].value, u = document.getElementsByClassName("match-type")[d].value; "innerText" != s ? "" == s && "" == c || (c = c.split('"').join('\\"'), a.push(t(u, s, c)), a.push(" and ")) : (a.push(n(u, c)), a.push(" and ")) } else { var r = a[a.length - 1]; " and " != r && " or " != r || a.pop(), a.push(" or "), o++ } } if (a.pop(), firstPartOfXpath = "" != e ? "//" + e : "//*", a.length > 0) var m = firstPartOfXpath + "[" + a.join("") + "]"; else m = firstPartOfXpath; addItemToXpathList(m) } function combineList() { 0 == document.getElementById("list").hasChildNodes() && addXpathToList(); var e = []; document.getElementById("list").childNodes.forEach(t => { e.push(t.textContent.trim()) }); var t = e.join(""); if (document.getElementById("index-checkbox").checked) t = "(" + t + ")[" + document.getElementById("index-text").value + "]"; document.getElementById("combine-list-text").value = t } function clearList() { document.getElementById("list").innerHTML = "", document.getElementById("combine-list-text").value = "" } function reset() { deleteMode = !1, activeElement = null, bodyHtmlSnapshots = [], document.body.outerHTML = originalHtmlBody, $("#attribute-table-row-container").sortable({ cancel: ".disable-sort" }), $("#list").sortable({ cancel: ".disable-sort" }) } function matchTypeDropdownChanged(e) { switch (e.value) { case "not equals": case "not contains": case "not starts-with": case "not ends-with": e.style = "background-color: indianred;"; break; default: e.style = "background-color: lightgreen;" }e.options[e.selectedIndex].setAttribute("selected", "selected"), bodyHtmlSnapshots.length > 0 && (bodyHtmlSnapshots[bodyHtmlSnapshots.length - 1] = document.body.innerHTML) } function undoDeleteBtnClicked() { if (deleteMode = !1, bodyHtmlSnapshots.length > 0) { let e = bodyHtmlSnapshots.pop(); document.body.innerHTML = e, $("#attribute-table-row-container").sortable({ cancel: ".disable-sort" }), $("#list").sortable({ cancel: ".disable-sort" }) } } function addLevelToList() { deleteMode = !1, document.getElementById("delete-mode-checkbox").checked = !1, bodyHtmlSnapshots.push(document.body.innerHTML); var e = [], t = document.getElementById("full-xpath-1").value, n = document.getElementById("full-xpath-2").value; if (document.getElementById("full-xpath-1").value = "", document.getElementById("full-xpath-2").value = "", "" != t && "" != n) { var a = [t, n]; a.sort(function (e, t) { return e.length - t.length }); var l, o = a[1], d = a[0], s = o.substring(d.length).split("/").length - 1; if (t.length < n.length ? levelType = "deeper" : levelType = "higher", "deeper" == levelType) l = n.replace(t, ""); else { for (i = 0; i < s; i++)e.push("/.."); l = e.join("") } addItemToXpathList(l) } } function addItemToXpathList(e) { let t = document.getElementById("list"), n = document.createElement("div"); n.setAttribute("onclick", "attributeTableRowClicked(this)"), n.setAttribute("class", "list-item"), n.setAttribute("spellcheck", "false"), n.appendChild(document.createTextNode(e)), t.appendChild(n) } function duplicateBtnClicked() { deleteMode = !1, document.getElementById("delete-mode-checkbox").checked = !1, bodyHtmlSnapshots.push(document.body.innerHTML), document.getElementById("attribute-table-row-container").appendChild(activeElement.cloneNode(!0)) } deleteMode = !1, activeElement = null, bodyHtmlSnapshots = [], originalHtmlBody = document.body.outerHTML, deleteMode = !1, activeElement = null, bodyHtmlSnapshots = [], originalHtmlBody = document.body.outerHTML;
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" type="text/javascript"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+    <script>
+        $(function () { $("#attribute-table-row-container").sortable({ cancel: ".disable-sort" }) }), $(function () { $("#list").sortable({ cancel: ".disable-sort" }) });
+    </script>
+</body>
+
+</html>
